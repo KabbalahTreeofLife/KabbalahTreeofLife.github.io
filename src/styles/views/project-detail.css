@@ -164,3 +164,74 @@
   color: var(--overlay);
   margin: 16px 0;
 }
+
+.readme-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 0.85rem;
+}
+
+.readme-content thead th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.readme-content tbody td {
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  color: var(--text);
+}
+
+.readme-content tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--surface) 50%, transparent);
+}
+
+.readme-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+.readme-content p {
+  margin: 12px 0;
+}
+
+.readme-content ul,
+.readme-content ol {
+  padding-left: 28px;
+  margin: 12px 0;
+}
+
+.readme-content li {
+  margin: 4px 0;
+}
+
+.readme-content img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.readme-content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.readme-content em {
+  color: var(--overlay);
+  font-style: italic;
+}
+
+.readme-content a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.readme-content a:hover {
+  text-decoration: underline;
+}
