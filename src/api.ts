@@ -48,12 +48,12 @@ export async function fetchRepos(): Promise<Repo[]> {
 }
 
 export async function fetchRepo(name: string): Promise<Repo> {
-  return fetchJSON<Repo>(`${BASE_URL}/repos/${name}`);
+  return fetchJSON<Repo>(`https://api.github.com/repos/${USERNAME}/${name}`);
 }
 
 export async function fetchReadme(name: string): Promise<string> {
   try {
-    const readme = await fetchJSON<Readme>(`${BASE_URL}/repos/${name}/readme`);
+    const readme = await fetchJSON<Readme>(`https://api.github.com/repos/${USERNAME}/${name}/readme`);
     const decoded = atob(readme.content);
     return decoded;
   } catch {
