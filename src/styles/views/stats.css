@@ -1,0 +1,27 @@
+.stats-view {
+  padding-top: 120px;
+}
+
+.stats-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  background: transparent;
+  padding: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.stats-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.stats-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+}

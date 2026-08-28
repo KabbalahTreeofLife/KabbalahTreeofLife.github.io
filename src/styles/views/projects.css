@@ -1,0 +1,89 @@
+.projects-view {
+  padding-top: 120px;
+}
+
+.projects-controls {
+  margin-bottom: 40px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  color: var(--overlay);
+}
+
+.search-input {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  width: 100%;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--overlay);
+}
+
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.lang-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 6px 14px;
+  border: 1px solid var(--card-border);
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.chip:hover,
+.chip--active {
+  background: var(--mauve);
+  color: var(--base);
+  border-color: var(--mauve);
+}
+
+.sort-select {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+}
+
+.sort-select:focus {
+  border-color: var(--mauve);
+}
+
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  min-height: 200px;
+}

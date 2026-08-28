@@ -1,0 +1,166 @@
+.detail-view {
+  padding-top: 120px;
+}
+
+.back-link {
+  color: var(--mauve);
+  text-decoration: none;
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-bottom: 30px;
+  transition: var(--transition);
+}
+
+.back-link:hover {
+  transform: translateX(-5px);
+}
+
+.detail-header {
+  margin-bottom: 40px;
+}
+
+.detail-title {
+  margin-bottom: 16px;
+}
+
+.detail-desc {
+  color: var(--overlay);
+  font-size: 1rem;
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+
+.repo-topics {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.topic-tag {
+  padding: 4px 12px;
+  background: color-mix(in srgb, var(--blue) 15%, transparent);
+  color: var(--blue);
+  font-size: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--blue) 30%, transparent);
+}
+
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.stat-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--overlay);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.detail-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.btn--secondary {
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn--secondary:hover {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: none;
+}
+
+.readme-section h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--rosewater);
+  margin-bottom: 20px;
+}
+
+.readme-content {
+  background: var(--readme-bg);
+  border: 1px solid var(--card-border);
+  padding: 30px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.readme-content h1,
+.readme-content h2,
+.readme-content h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--rosewater);
+  margin: 24px 0 12px;
+}
+
+.readme-content a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.readme-content a:hover {
+  text-decoration: underline;
+}
+
+.readme-content code {
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+.readme-content pre {
+  background: var(--surface);
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.readme-content pre code {
+  background: none;
+  padding: 0;
+}
+
+.readme-content img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.readme-content ul,
+.readme-content ol {
+  padding-left: 24px;
+  margin: 12px 0;
+}
+
+.readme-content blockquote {
+  border-left: 3px solid var(--mauve);
+  padding-left: 16px;
+  color: var(--overlay);
+  margin: 16px 0;
+}

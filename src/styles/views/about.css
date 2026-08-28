@@ -1,0 +1,125 @@
+.about-view {
+  padding-top: 120px;
+}
+
+.about-grid {
+  display: grid;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+
+.about-bio p {
+  color: var(--text);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  max-width: 700px;
+  line-height: 1.8;
+}
+
+.about-bio strong {
+  color: var(--mauve);
+}
+
+.about-quote {
+  color: var(--overlay);
+  font-style: italic;
+  border-left: 3px solid var(--mauve);
+  padding-left: 16px;
+  margin-top: 24px;
+}
+
+.skills-title {
+  font-family: 'Cinzel', serif;
+  color: var(--rosewater);
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.skill-group {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.skill-category {
+  color: var(--mauve);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.skill-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skill-tag {
+  padding: 4px 10px;
+  background: color-mix(in srgb, var(--mauve) 10%, transparent);
+  color: var(--text);
+  font-size: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+}
+
+/* ── Timeline ── */
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -34px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mauve);
+  border: 2px solid var(--base);
+}
+
+.timeline-year {
+  color: var(--mauve);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.timeline-content h4 {
+  color: var(--rosewater);
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.timeline-content p {
+  color: var(--overlay);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}

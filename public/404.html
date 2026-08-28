@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script>
+    // GitHub Pages SPA redirect
+    var repoPath = '';
+    var path = window.location.pathname
+      .replace(repoPath, '/')
+      .replace(/^\/+/, '/')
+      .replace(/\/$/, '');
+    if (path !== '/') {
+      sessionStorage.setItem('redirect', path + window.location.search + window.location.hash);
+      window.location.replace(repoPath + '/');
+    }
+  </script>
+</head>
+<body></body>
+</html>
