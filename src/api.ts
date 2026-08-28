@@ -54,8 +54,12 @@ export async function fetchRepo(name: string): Promise<Repo> {
 export async function fetchReadme(name: string): Promise<string> {
   try {
     const readme = await fetchJSON<Readme>(`https://api.github.com/repos/${USERNAME}/${name}/readme`);
-    const decoded = atob(readme.content);
-    return decoded;
+    const binary = atob(readme.content);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return new TextDecoder('utf-8').decode(bytes);
   } catch {
     return '';
   }

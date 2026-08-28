@@ -4,13 +4,14 @@ export function parseMarkdown(md: string): string {
   // Code blocks (``` ... ```)
   html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_m, lang, code) => {
     const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return `<pre><code class="lang-${lang}">${escaped}</code></pre>`;
+    return `\n<pre><code class="lang-${lang}">${escaped.trimEnd()}</code></pre>\n`;
   });
 
   // Inline code
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
   // Headers
+  html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
   html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
   html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
@@ -24,7 +25,7 @@ export function parseMarkdown(md: string): string {
   // Bold and italic
   html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
 
   // Blockquotes
   html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
@@ -32,53 +33,79 @@ export function parseMarkdown(md: string): string {
   // Horizontal rules
   html = html.replace(/^---$/gm, '<hr>');
 
-  // Tables
-  html = html.replace(/^\|(.+)\|$/gm, (_m, content) => {
-    const cells = content.split('|').map((c: string) => c.trim());
-    if (cells.every((c: string) => /^[-:]+$/.test(c))) return '';
-    const tag = 'td';
-    return `<tr>${cells.map((c: string) => `<${tag}>${c}</${tag}>`).join('')}</tr>`;
-  });
-  html = html.replace(/(<tr>[\s\S]*?<\/tr>\n?)+/g, (m) => `<table>${m}</table>`);
+  // Tables - process line by line
+  const lines = html.split('\n');
+  const processedLines: string[] = [];
+  let inTable = false;
+  let tableLines: string[] = [];
+
+  function flushTable(): void {
+    if (tableLines.length === 0) return;
+    let tableHtml = '<table>';
+    tableLines.forEach((line, i) => {
+      const cells = line.split('|').map(c => c.trim()).filter(c => c !== '');
+      if (cells.length === 0) return;
+      // Skip separator rows
+      if (cells.every(c => /^[-:]+$/.test(c))) return;
+      if (i === 0) {
+        tableHtml += '<thead><tr>' + cells.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+      } else {
+        tableHtml += '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+      }
+    });
+    tableHtml += '</tbody></table>';
+    processedLines.push(tableHtml);
+    tableLines = [];
+  }
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+      inTable = true;
+      tableLines.push(trimmed);
+    } else {
+      if (inTable) {
+        flushTable();
+        inTable = false;
+      }
+      processedLines.push(line);
+    }
+  }
+  if (inTable) flushTable();
+  html = processedLines.join('\n');
 
   // Unordered lists
   html = html.replace(/^(?:- (.+)\n?)+/gm, (block) => {
-    const items = block.trim().split('\n').map(line => `<li>${line.replace(/^- /, '')}</li>`).join('');
+    const items = block.trim().split('\n')
+      .filter(l => l.startsWith('- '))
+      .map(line => `<li>${line.replace(/^- /, '')}</li>`)
+      .join('');
     return `<ul>${items}</ul>`;
   });
 
   // Ordered lists
   html = html.replace(/^(?:\d+\. (.+)\n?)+/gm, (block) => {
-    const items = block.trim().split('\n').map(line => `<li>${line.replace(/^\d+\. /, '')}</li>`).join('');
+    const items = block.trim().split('\n')
+      .filter(l => /^\d+\. /.test(l))
+      .map(line => `<li>${line.replace(/^\d+\. /, '')}</li>`)
+      .join('');
     return `<ol>${items}</ol>`;
   });
 
-  // Paragraphs (double newline)
-  html = html.replace(/\n\n+/g, '</p><p>');
+  // Paragraphs - wrap standalone text lines
+  html = html.split('\n').map(line => {
+    const trimmed = line.trim();
+    if (!trimmed) return '';
+    if (trimmed.startsWith('<h') || trimmed.startsWith('<pre') || trimmed.startsWith('<table') ||
+        trimmed.startsWith('<ul') || trimmed.startsWith('<ol') || trimmed.startsWith('<blockquote') ||
+        trimmed.startsWith('<hr') || trimmed.startsWith('<img') || trimmed.startsWith('</')) {
+      return line;
+    }
+    return `<p>${trimmed}</p>`;
+  }).join('\n');
 
-  // Single newlines to <br> (outside pre blocks)
-  html = html.replace(/(?<!\n)\n(?!\n)/g, '<br>');
-
-  // Wrap in paragraph
-  html = `<p>${html}</p>`;
-
-  // Clean empty paragraphs
-  html = html.replace(/<p>\s*<\/p>/g, '');
-  html = html.replace(/<p>\s*(<h[1-6]>)/g, '$1');
-  html = html.replace(/(<\/h[1-6]>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*(<pre>)/g, '$1');
-  html = html.replace(/(<\/pre>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*(<ul>)/g, '$1');
-  html = html.replace(/(<\/ul>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*(<ol>)/g, '$1');
-  html = html.replace(/(<\/ol>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*(<table>)/g, '$1');
-  html = html.replace(/(<\/table>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*(<blockquote>)/g, '$1');
-  html = html.replace(/(<\/blockquote>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*(<hr>)/g, '$1');
-  html = html.replace(/(<hr>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*(<img)/g, '$1');
+  // Clean up empty lines
+  html = html.replace(/\n{3,}/g, '\n\n');
 
   return html;
 }
