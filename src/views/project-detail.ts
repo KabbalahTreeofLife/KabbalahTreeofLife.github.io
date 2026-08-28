@@ -1,5 +1,6 @@
 import { fetchRepo, fetchReadme } from '../api';
 import { skeletonStats } from '../components/skeleton';
+import { parseMarkdown } from '../utils/markdown';
 import '../styles/views/project-detail.css';
 
 export async function projectDetail(params?: Record<string, string>): Promise<() => void> {
@@ -27,7 +28,7 @@ export async function projectDetail(params?: Record<string, string>): Promise<()
       : '';
 
     const readmeHtml = readme
-      ? `<div class="readme-section"><h3>README</h3><div class="readme-content">${readme}</div></div>`
+      ? `<div class="readme-section"><h3>README</h3><div class="readme-content">${parseMarkdown(readme)}</div></div>`
       : '';
 
     content.innerHTML = `
